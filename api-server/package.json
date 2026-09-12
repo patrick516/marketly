@@ -1,0 +1,13 @@
+{
+  "name": "api-server",
+  "version": "1.0.0",
+  "description": "Local JSON API for Marketly (website + admin panel)",
+  "main": "index.js",
+  "scripts": {
+    "start": "json-server --watch db.json --port 4000"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "json-server": "^1.0.0-beta.15"
+  }
+}

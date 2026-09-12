@@ -1,0 +1,69 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Minimalist Handbag",
+      "slug": "minimalist-handbag",
+      "price": 45900,
+      "originalPrice": 54900,
+      "rating": 4.6,
+      "reviewCount": 128,
+      "image": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80",
+      "discount": 15,
+      "category": "fashion"
+    },
+    {
+      "id": "2",
+      "name": "Leather Backpack",
+      "slug": "leather-backpack",
+      "price": 68500,
+      "originalPrice": 85000,
+      "rating": 4.7,
+      "reviewCount": 96,
+      "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80",
+      "discount": 20,
+      "category": "fashion"
+    },
+    {
+      "id": "3",
+      "name": "Wireless Earbuds",
+      "slug": "wireless-earbuds",
+      "price": 32500,
+      "originalPrice": 38900,
+      "rating": 4.5,
+      "reviewCount": 210,
+      "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=600&q=80",
+      "discount": 10,
+      "category": "electronics"
+    },
+    {
+      "id": "4",
+      "name": "Quilted Handbag",
+      "slug": "quilted-handbag",
+      "price": 28900,
+      "originalPrice": 37500,
+      "rating": 4.8,
+      "reviewCount": 74,
+      "image": "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&w=600&q=80",
+      "discount": 25,
+      "category": "fashion"
+    }
+  ],
+  "categories": [
+    { "id": "1", "name": "Fashion", "slug": "fashion", "icon": "Shirt" },
+    {
+      "id": "2",
+      "name": "Electronics",
+      "slug": "electronics",
+      "icon": "Headphones"
+    },
+    {
+      "id": "3",
+      "name": "Home & Living",
+      "slug": "home-living",
+      "icon": "Sofa"
+    },
+    { "id": "4", "name": "Beauty", "slug": "beauty", "icon": "Sparkles" },
+    { "id": "5", "name": "Accessories", "slug": "accessories", "icon": "Watch" }
+  ]
+}
