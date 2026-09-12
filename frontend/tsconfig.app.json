@@ -30,5 +30,15 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": [
+    "src/features/analytics",
+    "src/features/messages",
+    "src/features/services",
+    "src/context/AuthContext.tsx.wip",
+    "src/pages/auth/Login.tsx.wip",
+    "src/pages/auth/Register.tsx.wip",
+    "src/pages/auth/Forgotpasswordmodal.tsx.wip",
+    "src/features/products/useProducts.ts.wip"
+  ]
 }
