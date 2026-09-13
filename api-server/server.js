@@ -6,7 +6,16 @@ const PORT = 4000;
 const DB_PATH = "./db.json";
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://marketly-ivory.vercel.app",
+      "https://marketly-portal.vercel.app",
+    ],
+  }),
+);
 app.use(express.json({ limit: "10mb" })); // higher limit for base64 image uploads
 
 async function readDb() {
