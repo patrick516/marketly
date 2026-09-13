@@ -12,8 +12,9 @@ import ProductForm from "@/features/products/ProductForm";
 import type { ProductFormValues } from "@/features/products/ProductForm";
 import StockAdjustDialog from "@/features/products/StockAdjustDialog";
 import { useProducts } from "@/features/products/hooks/useProducts";
+import { getCategories, createOrder } from "@/lib/api";
 import type { Product, Category } from "@/lib/api";
-import { getCategories } from "@/lib/api";
+import toast from "react-hot-toast";
 
 function slugify(name: string) {
   return name
@@ -108,6 +109,9 @@ export default function Products() {
             initialValues={editingProduct ?? undefined}
             onSubmit={handleSubmit}
             onCancel={() => setFormOpen(false)}
+            onCategoryCreated={(newCategory) =>
+              setCategories((prev) => [...prev, newCategory])
+            }
           />
         </DialogContent>
       </Dialog>
@@ -115,8 +119,29 @@ export default function Products() {
       <StockAdjustDialog
         product={adjustingProduct}
         onClose={() => setAdjustingProduct(null)}
-        onConfirm={(id, newStock) => {
-          editProduct(id, { stock: newStock });
+        onConfirm={async ({
+          productId,
+          newStock,
+          quantitySold,
+          customerName,
+          customerPhone,
+        }) => {
+          if (!adjustingProduct) return;
+          try {
+            await createOrder({
+              productId,
+              productName: adjustingProduct.name,
+              quantity: quantitySold,
+              unitPrice: adjustingProduct.price,
+              total: adjustingProduct.price * quantitySold,
+              customerName,
+              customerPhone,
+            });
+            await editProduct(productId, { stock: newStock });
+            toast.success("Sale recorded");
+          } catch {
+            toast.error("Failed to record sale");
+          }
           setAdjustingProduct(null);
         }}
       />

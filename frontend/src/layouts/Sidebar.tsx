@@ -3,9 +3,6 @@ import {
   LayoutDashboard,
   Package,
   ClipboardList,
-  Users,
-  Store,
-  CreditCard,
   BarChart3,
   Settings as SettingsIcon,
 } from "lucide-react";
@@ -14,13 +11,9 @@ const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/products", label: "Products", icon: Package },
   { to: "/orders", label: "Orders", icon: ClipboardList },
-  { to: "/customers", label: "Customers", icon: Users },
-  { to: "/sellers", label: "Sellers", icon: Store },
-  { to: "/payments", label: "Payments", icon: CreditCard },
   { to: "/analytics", label: "Analytics", icon: BarChart3 },
   { to: "/settings", label: "Settings", icon: SettingsIcon },
 ];
-
 interface SidebarProps {
   onNavigate?: () => void;
 }
@@ -42,7 +35,7 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
             to={to}
             onClick={onNavigate}
             className={({ isActive }) =>
-              `flex items-center gap-3 rounded-full px-4 py-2.5 text-sm font-medium transition-colors duration-150 ${
+              `flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors duration-150 ${
                 isActive
                   ? "bg-coral-500 text-white shadow-sm"
                   : "text-white/70 hover:bg-white/10 hover:text-white"

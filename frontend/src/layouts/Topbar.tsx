@@ -19,13 +19,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { logout } from "@/lib/auth";
 
-// TODO: replace with real user data once login/auth is implemented
+// TODO: replace with real user data once a real backend exists
 const currentUser = {
   name: "Admin",
   email: "admin@marketly.com",
 };
-
 interface TopbarProps {
   onMenuClick: () => void;
 }
@@ -35,10 +35,10 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
   const navigate = useNavigate();
 
   function handleLogout() {
-    // TODO: clear real session/token once login exists
+    logout();
     toast.success("Logged out");
+    navigate("/login");
   }
-
   return (
     <div className="flex items-center gap-3 h-16 px-4 md:px-6 border-b shrink-0">
       <button

@@ -13,6 +13,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Plus } from "lucide-react";
+import { createCategory } from "@/lib/api";
 import type { Product, Category } from "@/lib/api";
 
 const schema = z.object({
@@ -33,15 +35,19 @@ interface ProductFormProps {
   initialValues?: Product;
   onSubmit: (values: ProductFormValues) => void;
   onCancel: () => void;
+  onCategoryCreated: (category: Category) => void;
 }
-
 export default function ProductForm({
   categories,
   initialValues,
   onSubmit,
   onCancel,
+  onCategoryCreated,
 }: ProductFormProps) {
   const [imageMode, setImageMode] = useState<"url" | "upload">("url");
+  const [addingCategory, setAddingCategory] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState("");
+  const [creatingCategory, setCreatingCategory] = useState(false);
 
   const {
     register,
@@ -94,7 +100,16 @@ export default function ProductForm({
           control={control}
           name="category"
           render={({ field }) => (
-            <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <Select
+              onValueChange={(value) => {
+                if (value === "__add_new__") {
+                  setAddingCategory(true);
+                } else {
+                  field.onChange(value);
+                }
+              }}
+              defaultValue={field.value}
+            >
               <SelectTrigger id="category" className="rounded-xl mt-1">
                 <SelectValue placeholder="Choose a category" />
               </SelectTrigger>
@@ -104,14 +119,76 @@ export default function ProductForm({
                     {c.name}
                   </SelectItem>
                 ))}
+                <SelectItem
+                  value="__add_new__"
+                  className="text-brand-700 font-medium"
+                >
+                  <span className="flex items-center gap-1.5">
+                    <Plus className="h-3.5 w-3.5" />
+                    Add new category
+                  </span>
+                </SelectItem>
               </SelectContent>
             </Select>
           )}
         />
-        {errors.category && (
+        {errors.category && !addingCategory && (
           <p className="text-xs text-coral-600 mt-1">
             {errors.category.message}
           </p>
+        )}
+
+        {addingCategory && (
+          <div className="flex items-center gap-2 mt-2">
+            <Input
+              autoFocus
+              placeholder="New category name"
+              className="rounded-xl"
+              value={newCategoryName}
+              onChange={(e) => setNewCategoryName(e.target.value)}
+            />
+            <Button
+              type="button"
+              size="sm"
+              disabled={!newCategoryName.trim() || creatingCategory}
+              className="rounded-xl bg-coral-500 hover:bg-coral-600 text-white shrink-0"
+              onClick={async () => {
+                setCreatingCategory(true);
+                try {
+                  const slug = newCategoryName
+                    .toLowerCase()
+                    .trim()
+                    .replace(/[^a-z0-9]+/g, "-")
+                    .replace(/(^-|-$)/g, "");
+                  const created = await createCategory({
+                    name: newCategoryName.trim(),
+                    slug,
+                    icon: "Tag",
+                  });
+                  onCategoryCreated(created);
+                  setValue("category", created.slug, { shouldValidate: true });
+                  setAddingCategory(false);
+                  setNewCategoryName("");
+                } finally {
+                  setCreatingCategory(false);
+                }
+              }}
+            >
+              {creatingCategory ? "Adding…" : "Add"}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="rounded-xl shrink-0"
+              onClick={() => {
+                setAddingCategory(false);
+                setNewCategoryName("");
+              }}
+            >
+              Cancel
+            </Button>
+          </div>
         )}
       </div>
 
