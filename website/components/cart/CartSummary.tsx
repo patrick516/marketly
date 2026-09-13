@@ -1,16 +1,21 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useCart } from "@/store/cart";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
-
-const WHATSAPP_NUMBER = "265888000000"; // TODO: replace with real vendor number
+import { getSettings } from "@/lib/api";
 
 export default function CartSummary() {
   const { items, totalPrice, totalItems } = useCart();
+  const [whatsappNumber, setWhatsappNumber] = useState("");
+
+  useEffect(() => {
+    getSettings().then((s) => setWhatsappNumber(s.whatsappNumber));
+  }, []);
 
   function handleProceed() {
-    if (items.length === 0) return;
+    if (items.length === 0 || !whatsappNumber) return;
 
     const lines = items.map(
       (item, index) =>
@@ -26,7 +31,7 @@ export default function CartSummary() {
       `Grand Total: MK ${totalPrice.toLocaleString()}`,
     ].join("\n");
 
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
   }
 
